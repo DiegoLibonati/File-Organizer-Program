@@ -4,10 +4,11 @@ from shutil import move, rmtree
 
 class FileOrganizer():
 
-    def __init__(self, path: str = "", files: list = [], extensions: list = []):
+    def __init__(self, path: str = "", files: list = [], extensions: list = [], extensions_allowed: list = []):
         self.path = path
         self.files = files
         self.extensions = extensions
+        self.extensions_allowed = extensions_allowed
 
     def print_path(self):
         
@@ -26,6 +27,13 @@ class FileOrganizer():
         except:
             print(f"No se encontro el path: {self.path}")
             return False
+
+    def get_specific_files_from_path(self):
+        try:
+            self.files = [file for file in listdir(self.path) if isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
+        except:
+            print(f"No se encontro el path: {self.path}")
+            return False
         
     def get_all_extensions_from_path(self):
 
@@ -37,6 +45,7 @@ class FileOrganizer():
                     self.extensions.append(extension)
         else:
             print(f"No hay archivos para mover en {self.path}")
+            
 
     def create_extension_folders(self):
         if self.extensions and self.path:
