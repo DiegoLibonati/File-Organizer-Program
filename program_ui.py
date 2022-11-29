@@ -15,8 +15,28 @@ class FileOrganizerUI(FileOrganizer):
         self.checkbox_value_mp4 = BooleanVar(value=True)
         self.checkbox_value_pdf = BooleanVar(value=True)
         self.checkbox_value_exe = BooleanVar(value=True)
+        self.checkbox_value_jpg = BooleanVar(value=True)
+        self.checkbox_value_jpeg = BooleanVar(value=True)
+        self.checkbox_value_png = BooleanVar(value=True)
+        self.checkbox_value_txt = BooleanVar(value=True)
+        self.checkbox_value_json = BooleanVar(value=True)
+        self.checkbox_value_mp3 = BooleanVar(value=True)
+        self.checkbox_value_m3u8 = BooleanVar(value=True)
+        self.checkbox_value_zip = BooleanVar(value=True)
+        self.checkbox_value_gif = BooleanVar(value=True)
 
-        self.options = {"mp4":self.checkbox_value_mp4, "pdf":self.checkbox_value_pdf, "exe":self.checkbox_value_exe}
+        self.options = {"mp4":self.checkbox_value_mp4, 
+                        "pdf":self.checkbox_value_pdf, 
+                        "exe":self.checkbox_value_exe,
+                        "png":self.checkbox_value_png, 
+                        "jpg":self.checkbox_value_jpg, 
+                        "jpeg":self.checkbox_value_jpeg,
+                        "txt": self.checkbox_value_txt,
+                        "json": self.checkbox_value_json,
+                        "mp3": self.checkbox_value_mp3,
+                        "m3u8": self.checkbox_value_m3u8,
+                        "zip": self.checkbox_value_zip,
+                        "gif": self.checkbox_value_gif}
 
         Entry(bg="#fff", font=("Arial Bold", 10), textvariable=self.pathname, state=DISABLED).place(x=50, y=25,  width=225, height=25)
         Button(text="Search", relief="flat", bg="white", cursor="hand2", command=lambda:self.set_path()).place(x=300, y=25, width=50, height=25)
@@ -24,10 +44,21 @@ class FileOrganizerUI(FileOrganizer):
         Button(text="ORGANIZE", relief="flat", bg="white", cursor="hand2", command=lambda:self.organize()).place(x=50, y=75, width=125, height=25)
         Button(text="Revert ORGANIZE", relief="flat", bg="white", cursor="hand2", command=lambda:self.reverse_organize()).place(x=50, y=110, width=125, height=25)
 
-        Checkbutton(text="ALL", variable=self.checkbox_value_all, command=lambda:self.set_all_values_to_true()).place(x=50, y=200, width=50, height=25)
-        Checkbutton(text="MP4", variable=self.checkbox_value_mp4, command=lambda:self.set_all_to_false()).place(x=50, y=230, width=50, height=25)
-        Checkbutton(text="PDF", variable=self.checkbox_value_pdf, command=lambda:self.set_all_to_false()).place(x=50, y=260, width=50, height=25)
-        Checkbutton(text="EXE", variable=self.checkbox_value_exe, command=lambda:self.set_all_to_false()).place(x=50, y=290, width=50, height=25)
+        Checkbutton(text="ALL", variable=self.checkbox_value_all, command=lambda:self.set_all_values_to_true()).place(x=50, y=200, width=55, height=25)
+        Checkbutton(text="MP4", variable=self.checkbox_value_mp4, command=lambda:self.set_all_to_false()).place(x=50, y=230, width=55, height=25)
+        Checkbutton(text="PDF", variable=self.checkbox_value_pdf, command=lambda:self.set_all_to_false()).place(x=50, y=260, width=55, height=25)
+        Checkbutton(text="EXE", variable=self.checkbox_value_exe, command=lambda:self.set_all_to_false()).place(x=50, y=290, width=55, height=25)
+        Checkbutton(text="JPG", variable=self.checkbox_value_jpg, command=lambda:self.set_all_to_false()).place(x=50, y=320, width=55, height=25)
+        Checkbutton(text="JPEG", variable=self.checkbox_value_jpeg, command=lambda:self.set_all_to_false()).place(x=50, y=350, width=55, height=25)
+
+        Checkbutton(text="PNG", variable=self.checkbox_value_png, command=lambda:self.set_all_to_false()).place(x=110, y=200, width=55, height=25)
+        Checkbutton(text="TXT", variable=self.checkbox_value_txt, command=lambda:self.set_all_to_false()).place(x=110, y=230, width=55, height=25)
+        Checkbutton(text="JSON", variable=self.checkbox_value_json, command=lambda:self.set_all_to_false()).place(x=110, y=260, width=55, height=25)
+        Checkbutton(text="MP3", variable=self.checkbox_value_mp3, command=lambda:self.set_all_to_false()).place(x=110, y=290, width=55, height=25)
+        Checkbutton(text="M3U8", variable=self.checkbox_value_m3u8, command=lambda:self.set_all_to_false()).place(x=110, y=320, width=55, height=25)
+        Checkbutton(text="ZIP", variable=self.checkbox_value_zip, command=lambda:self.set_all_to_false()).place(x=110, y=350, width=55, height=25)
+        
+        Checkbutton(text="GIF", variable=self.checkbox_value_gif, command=lambda:self.set_all_to_false()).place(x=170, y=200, width=55, height=25)
 
     def set_path(self):
         self.path = filedialog.askdirectory(title="Choose a directory")
@@ -55,13 +86,11 @@ class FileOrganizerUI(FileOrganizer):
 
     def set_all_values_to_true(self):
         if self.checkbox_value_all.get():
-            self.checkbox_value_mp4.set(True)
-            self.checkbox_value_pdf.set(True)
-            self.checkbox_value_exe.set(True)
+            for option in self.options.values():
+                option.set(True)
         else:
-            self.checkbox_value_mp4.set(False)
-            self.checkbox_value_pdf.set(False)
-            self.checkbox_value_exe.set(False)
+            for option in self.options.values():
+                option.set(False)
 
     def set_all_to_false(self):
         self.checkbox_value_all.set(False)
