@@ -5,7 +5,7 @@ from file_organizer import *
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.0.2")
+        master.title("File Organizer V0.0.3")
         master.geometry("400x400")
         master.config(bg="black")
         master.resizable(False, False)
@@ -57,7 +57,7 @@ class FileOrganizerUI(FileOrganizer):
         Checkbutton(text="MP3", variable=self.checkbox_value_mp3, command=lambda:self.set_all_to_false()).place(x=110, y=290, width=55, height=25)
         Checkbutton(text="M3U8", variable=self.checkbox_value_m3u8, command=lambda:self.set_all_to_false()).place(x=110, y=320, width=55, height=25)
         Checkbutton(text="ZIP", variable=self.checkbox_value_zip, command=lambda:self.set_all_to_false()).place(x=110, y=350, width=55, height=25)
-        
+
         Checkbutton(text="GIF", variable=self.checkbox_value_gif, command=lambda:self.set_all_to_false()).place(x=170, y=200, width=55, height=25)
 
     def set_path(self):
