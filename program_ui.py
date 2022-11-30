@@ -5,7 +5,7 @@ from file_organizer import *
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.0.3")
+        master.title("File Organizer V0.0.4")
         master.geometry("400x600")
         master.config(bg="black")
         master.resizable(False, False)
