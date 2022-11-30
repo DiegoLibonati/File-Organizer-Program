@@ -1,14 +1,15 @@
-from os import listdir, mkdir
+from os import listdir, mkdir, stat
 from os.path import join, isdir, isfile, exists
 from shutil import move, rmtree
 
 class FileOrganizer():
 
-    def __init__(self, path: str = "", files: list = [], extensions: list = [], extensions_allowed: list = []):
+    def __init__(self, path: str = "", files: list = [], extensions: list = [], extensions_allowed: list = [], filters: dict = {}):
         self.path = path
         self.files = files
         self.extensions = extensions
         self.extensions_allowed = extensions_allowed
+        self.filters = filters
 
     def print_path(self):
         
@@ -33,10 +34,20 @@ class FileOrganizer():
             self.extensions_allowed = []
 
     def get_all_files_from_path(self):
-        
         try:
             files_in_path = listdir(self.path)
+
+            if self.filters:
+                byte = 1024 * 1024
+                filter_max_size = self.filters["max_size"] * byte
+
+                self.files = [file for file in files_in_path 
+                                if isfile(f"{self.path}/{file}") and 
+                                stat(f'{self.path}/{file}').st_size <= filter_max_size]
+                return
+
             self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}")]
+            return
         except:
             print(f"Path not found: {self.path}")
             return False
@@ -44,7 +55,19 @@ class FileOrganizer():
     def get_specific_files_from_path(self):
         try:
             files_in_path = listdir(self.path)
+            
+            if self.filters:
+                byte = 1024 * 1024
+                filter_max_size = self.filters["max_size"] * byte
+
+                self.files = [file for file in files_in_path 
+                                if isfile(f"{self.path}/{file}") and 
+                                file.rsplit(".", 1).pop() in self.extensions_allowed and 
+                                stat(f'{self.path}/{file}').st_size <= filter_max_size]
+                return
+
             self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
+            return
         except:
             print(f"Path not found: {self.path}")
             return False

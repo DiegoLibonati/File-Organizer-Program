@@ -5,7 +5,7 @@ from file_organizer import *
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.0.4")
+        master.title("File Organizer V0.1.0")
         master.geometry("400x600")
         master.config(bg="black")
         master.resizable(False, False)
@@ -64,10 +64,10 @@ class FileOrganizerUI(FileOrganizer):
         Checkbutton(text="GIF", variable=self.checkbox_value_gif, command=lambda:self.set_all_to_false()).place(x=170, y=200, width=55, height=25)
         
         Checkbutton(text="Filter by", variable=self.checkbox_value_filters, command=lambda:self.enable_filters()).place(x=50, y=400, width=80, height=25)
-        Label(fg="#fff", bg="#000", font=("Arial Bold", 10), text="Size: ").place(x=50, y=430,  width=40, height=25)
+        Label(fg="#fff", bg="#000", font=("Arial Bold", 10), text="Max size: ").place(x=50, y=430,  width=60, height=25)
         self.entry_file_size = Entry(bg="#fff", font=("Arial Bold", 10), textvariable=self.file_size, state=DISABLED)
-        self.entry_file_size.place(x=90, y=430,  width=60, height=25)
-        Label(fg="#fff", bg="#000", font=("Arial Bold", 10), text="MB").place(x=150, y=430,  width=30, height=25)
+        self.entry_file_size.place(x=110, y=430,  width=60, height=25)
+        Label(fg="#fff", bg="#000", font=("Arial Bold", 10), text="MB").place(x=170, y=430,  width=30, height=25)
 
     def set_path(self):
         self.path = filedialog.askdirectory(title="Choose a directory")
@@ -76,11 +76,22 @@ class FileOrganizerUI(FileOrganizer):
     def organize(self):
         
         if self.checkbox_value_all.get():
+            if self.checkbox_value_filters.get():
+                self.filters = {
+                    "max_size": self.file_size.get() 
+                }
+
             self.get_all_files_from_path()
             self.get_all_extensions_from_path()
             self.create_extension_folders()
             self.move_files_to_their_directory()
+    
         else:
+            if self.checkbox_value_filters.get():
+                self.filters = {
+                    "max_size": self.file_size.get() 
+                }
+
             self.extensions_allowed = [extension for extension, value in self.options.items() if value.get()]
 
             self.get_specific_files_from_path()
