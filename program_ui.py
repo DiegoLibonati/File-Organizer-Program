@@ -6,11 +6,13 @@ class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
         master.title("File Organizer V0.0.3")
-        master.geometry("400x400")
+        master.geometry("400x600")
         master.config(bg="black")
         master.resizable(False, False)
 
         self.pathname = StringVar(None, value="Wait for directory...")
+        self.file_size = IntVar(None, value=0)
+
         self.checkbox_value_all = BooleanVar(value=True)
         self.checkbox_value_mp4 = BooleanVar(value=True)
         self.checkbox_value_pdf = BooleanVar(value=True)
@@ -24,6 +26,7 @@ class FileOrganizerUI(FileOrganizer):
         self.checkbox_value_m3u8 = BooleanVar(value=True)
         self.checkbox_value_zip = BooleanVar(value=True)
         self.checkbox_value_gif = BooleanVar(value=True)
+        self.checkbox_value_filters = BooleanVar(value=False)
 
         self.options = {"mp4":self.checkbox_value_mp4, 
                         "pdf":self.checkbox_value_pdf, 
@@ -59,6 +62,12 @@ class FileOrganizerUI(FileOrganizer):
         Checkbutton(text="ZIP", variable=self.checkbox_value_zip, command=lambda:self.set_all_to_false()).place(x=110, y=350, width=55, height=25)
 
         Checkbutton(text="GIF", variable=self.checkbox_value_gif, command=lambda:self.set_all_to_false()).place(x=170, y=200, width=55, height=25)
+        
+        Checkbutton(text="Filter by", variable=self.checkbox_value_filters, command=lambda:self.enable_filters()).place(x=50, y=400, width=80, height=25)
+        Label(fg="#fff", bg="#000", font=("Arial Bold", 10), text="Size: ").place(x=50, y=430,  width=40, height=25)
+        self.entry_file_size = Entry(bg="#fff", font=("Arial Bold", 10), textvariable=self.file_size, state=DISABLED)
+        self.entry_file_size.place(x=90, y=430,  width=60, height=25)
+        Label(fg="#fff", bg="#000", font=("Arial Bold", 10), text="MB").place(x=150, y=430,  width=30, height=25)
 
     def set_path(self):
         self.path = filedialog.askdirectory(title="Choose a directory")
@@ -79,10 +88,8 @@ class FileOrganizerUI(FileOrganizer):
             self.create_extension_folders()
             self.move_files_to_their_directory()
 
-        self.path = ""
         self.pathname.set("Wait for directory...")
-        self.files = []
-        self.extensions = []
+        self.initial_state_reset()
 
     def set_all_values_to_true(self):
         if self.checkbox_value_all.get():
@@ -96,12 +103,17 @@ class FileOrganizerUI(FileOrganizer):
         self.checkbox_value_all.set(False)
 
     def reverse_organize(self):
-        self.go_back()
+        self.revert_organizer()
 
-        self.path = ""
         self.pathname.set("Wait for directory...")
-        self.files = []
-        self.extensions = []
+        self.initial_state_reset()
+
+    def enable_filters(self):
+        if self.entry_file_size["state"] == DISABLED:
+            self.entry_file_size.config(state=NORMAL)
+            return
+        self.entry_file_size.config(state=DISABLED)
+        return
 
 root = Tk()
 file_organizer_ui = FileOrganizerUI(master = root)

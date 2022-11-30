@@ -12,27 +12,41 @@ class FileOrganizer():
 
     def print_path(self):
         
-        if self.path:
-            print(self.path)
+        try:
+            print(f"The chosen path is: {self.path}")
+        except:
+            print("No path entered")
+            return False
     
     def get_path(self):
 
-        if not self.path:
+        try:
             self.path = input("Ingrese un path a ordenar: ")
+        except:
+            print("An error occurred when entering a path")
+            return False
+    
+    def initial_state_reset(self):
+            self.path = ""
+            self.files = []
+            self.extensions = []
+            self.extensions_allowed = []
 
     def get_all_files_from_path(self):
         
         try:
-            self.files = [file for file in listdir(self.path) if isfile(f"{self.path}/{file}")]
+            files_in_path = listdir(self.path)
+            self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}")]
         except:
-            print(f"No se encontro el path: {self.path}")
+            print(f"Path not found: {self.path}")
             return False
 
     def get_specific_files_from_path(self):
         try:
-            self.files = [file for file in listdir(self.path) if isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
+            files_in_path = listdir(self.path)
+            self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
         except:
-            print(f"No se encontro el path: {self.path}")
+            print(f"Path not found: {self.path}")
             return False
         
     def get_all_extensions_from_path(self):
@@ -43,21 +57,26 @@ class FileOrganizer():
 
                 if extension not in self.extensions:
                     self.extensions.append(extension)
-        else:
-            print(f"No hay archivos para mover en {self.path}")
-            
+            return
+        
+        print(f"There are no files to move in {self.path}")
+        return False    
 
     def create_extension_folders(self):
         if self.extensions and self.path:
             for extension in self.extensions:
-                extension = f"{extension.upper()}_ORGANIZER"
+                folder_name = f"{extension.upper()}_ORGANIZER"
 
-                if not exists(f"{self.path}/{extension}"):
-                    directory = join(self.path, extension)
+                if not exists(f"{self.path}/{folder_name}"):
+                    directory = join(self.path, folder_name)
                     mkdir(directory)
-                    print(f"Directory {extension} created")
+                    print(f"Directory {folder_name} created")
                 else:
-                    print(f"No se creo el directory: {extension} porque ya existe")
+                    print(f"The directory: {folder_name} was not created because it already exists.")
+            return
+        
+        print("No extensions or correct path found")
+        return False
 
     def move_files_to_their_directory(self):
         if self.files:
@@ -69,10 +88,12 @@ class FileOrganizer():
                 move(last_path, new_path)
 
                 print(f"{file} moved to {new_path}")
+            return
 
-        self.success = True
+        print(f"There are no files to move in this path")
+        return False 
 
-    def go_back(self):
+    def revert_organizer(self):
         try:
             folder_names = [name for name in listdir(self.path) if isdir(f"{self.path}/{name}") and "_ORGANIZER" in name]
             if folder_names:
@@ -91,11 +112,9 @@ class FileOrganizer():
 
                     rmtree(directory)
             
-            self.path = ""
-            self.files = []
-            self.extensions = []
+            self.initial_state_reset()
         except:
-            print("Ocurrio un error al intentar revertir ORGANIZER.")
+            print("An error occurred while trying to revert ORGANIZER.")
             return False
 
                 
