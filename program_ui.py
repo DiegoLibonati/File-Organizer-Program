@@ -5,13 +5,13 @@ from file_organizer import *
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.1.0")
+        master.title("File Organizer V0.1.1")
         master.geometry("400x600")
         master.config(bg="black")
         master.resizable(False, False)
 
         self.pathname = StringVar(None, value="Wait for directory...")
-        self.file_size = IntVar(None, value=0)
+        self.file_size = IntVar(None, value=1)
 
         self.checkbox_value_all = BooleanVar(value=True)
         self.checkbox_value_mp4 = BooleanVar(value=True)

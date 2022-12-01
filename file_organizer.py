@@ -41,9 +41,12 @@ class FileOrganizer():
                 byte = 1024 * 1024
                 filter_max_size = self.filters["max_size"] * byte
 
-                self.files = [file for file in files_in_path 
-                                if isfile(f"{self.path}/{file}") and 
-                                stat(f'{self.path}/{file}').st_size <= filter_max_size]
+                for file in files_in_path:
+                    file_is_file = isfile(f"{self.path}/{file}")
+                    file_size = stat(f'{self.path}/{file}').st_size
+
+                    if file_is_file and file_size <= filter_max_size:
+                        self.files.append(file)
                 return
 
             self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}")]
@@ -59,11 +62,14 @@ class FileOrganizer():
             if self.filters:
                 byte = 1024 * 1024
                 filter_max_size = self.filters["max_size"] * byte
+                
+                for file in files_in_path:
+                    file_is_file = isfile(f"{self.path}/{file}")
+                    file_extension = file.rsplit(".", 1).pop()
+                    file_size = stat(f'{self.path}/{file}').st_size
 
-                self.files = [file for file in files_in_path 
-                                if isfile(f"{self.path}/{file}") and 
-                                file.rsplit(".", 1).pop() in self.extensions_allowed and 
-                                stat(f'{self.path}/{file}').st_size <= filter_max_size]
+                    if file_is_file and file_extension in self.extensions_allowed and file_size <= filter_max_size:
+                        self.files.append(file)
                 return
 
             self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
