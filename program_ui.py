@@ -5,7 +5,7 @@ from file_organizer import *
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.1.2")
+        master.title("File Organizer V0.1.3")
         master.geometry("400x600")
         master.config(bg="#F3F3F3")
         master.resizable(False, False)
@@ -40,34 +40,6 @@ class FileOrganizerUI(FileOrganizer):
                         "m3u8": self.checkbox_value_m3u8,
                         "zip": self.checkbox_value_zip,
                         "gif": self.checkbox_value_gif}
-
-        Entry(bg="#fff", fg="#000", font=("Arial Bold", 10), textvariable=self.pathname, state=DISABLED).place(x=50, y=25,  width=225, height=25)
-        Button(text="Search", relief="flat", bg="#250001", fg="#fff", cursor="hand2", command=lambda:self.set_path()).place(x=300, y=25, width=50, height=25)
-
-        Button(text="ORGANIZE", relief="flat", bg="#250001", fg="#fff", cursor="hand2", command=lambda:self.organize()).place(x=50, y=75, width=125, height=25)
-        Button(text="Revert ORGANIZE", relief="flat", bg="#250001", fg="#fff", cursor="hand2", command=lambda:self.reverse_organize()).place(x=50, y=110, width=125, height=25)
-
-        Checkbutton(text="ALL", variable=self.checkbox_value_all, command=lambda:self.set_all_values_to_true()).place(x=50, y=200, width=55, height=25)
-        Checkbutton(text="MP4", variable=self.checkbox_value_mp4, command=lambda:self.set_all_to_false()).place(x=50, y=230, width=55, height=25)
-        Checkbutton(text="PDF", variable=self.checkbox_value_pdf, command=lambda:self.set_all_to_false()).place(x=50, y=260, width=55, height=25)
-        Checkbutton(text="EXE", variable=self.checkbox_value_exe, command=lambda:self.set_all_to_false()).place(x=50, y=290, width=55, height=25)
-        Checkbutton(text="JPG", variable=self.checkbox_value_jpg, command=lambda:self.set_all_to_false()).place(x=50, y=320, width=55, height=25)
-        Checkbutton(text="JPEG", variable=self.checkbox_value_jpeg, command=lambda:self.set_all_to_false()).place(x=50, y=350, width=55, height=25)
-
-        Checkbutton(text="PNG", variable=self.checkbox_value_png, command=lambda:self.set_all_to_false()).place(x=110, y=200, width=55, height=25)
-        Checkbutton(text="TXT", variable=self.checkbox_value_txt, command=lambda:self.set_all_to_false()).place(x=110, y=230, width=55, height=25)
-        Checkbutton(text="JSON", variable=self.checkbox_value_json, command=lambda:self.set_all_to_false()).place(x=110, y=260, width=55, height=25)
-        Checkbutton(text="MP3", variable=self.checkbox_value_mp3, command=lambda:self.set_all_to_false()).place(x=110, y=290, width=55, height=25)
-        Checkbutton(text="M3U8", variable=self.checkbox_value_m3u8, command=lambda:self.set_all_to_false()).place(x=110, y=320, width=55, height=25)
-        Checkbutton(text="ZIP", variable=self.checkbox_value_zip, command=lambda:self.set_all_to_false()).place(x=110, y=350, width=55, height=25)
-
-        Checkbutton(text="GIF", variable=self.checkbox_value_gif, command=lambda:self.set_all_to_false()).place(x=170, y=200, width=55, height=25)
-        
-        Checkbutton(text="Filter by", variable=self.checkbox_value_filters, command=lambda:self.enable_filters()).place(x=40, y=400, width=80, height=25)
-        Label(fg="#000", font=("Arial Bold", 10), text="Max size: ").place(x=50, y=430,  width=60, height=25)
-        self.entry_file_size = Entry(bg="#fff", font=("Arial Bold", 10), textvariable=self.file_size, state=DISABLED)
-        self.entry_file_size.place(x=110, y=430,  width=60, height=25)
-        Label(fg="#000", font=("Arial Bold", 10), text="MB").place(x=170, y=430,  width=30, height=25)
 
     def set_path(self):
         self.path = filedialog.askdirectory(title="Choose a directory")
@@ -128,5 +100,38 @@ class FileOrganizerUI(FileOrganizer):
 
 root = Tk()
 file_organizer_ui = FileOrganizerUI(master = root)
+
+Entry(root,bg="#fff", fg="#000", font=("Arial Bold", 10), textvariable=file_organizer_ui.pathname, state=DISABLED).place(x=50, y=25,  width=225, height=25)
+Button(root,text="Search", relief="flat", bg="#250001", fg="#fff", cursor="hand2", command=lambda:file_organizer_ui.set_path()).place(x=300, y=25, width=50, height=25)
+
+Button(root,text="ORGANIZE", relief="flat", bg="#250001", fg="#fff", cursor="hand2", command=lambda:file_organizer_ui.organize()).place(x=50, y=75, width=125, height=25)
+Button(root,text="Revert ORGANIZE", relief="flat", bg="#250001", fg="#fff", cursor="hand2", command=lambda:file_organizer_ui.reverse_organize()).place(x=50, y=110, width=125, height=25)
+
+frame_extensions = LabelFrame(root, text="Select extensions",padx=20, pady=20)
+frame_extensions.grid(row=1, column=0, pady=(150,0), padx=(50,0))
+Checkbutton(frame_extensions, text="ALL", variable=file_organizer_ui.checkbox_value_all, command=lambda:file_organizer_ui.set_all_values_to_true(), width="5", anchor="w").grid(padx=1, pady=5, row=0, column=0)
+Checkbutton(frame_extensions, text="MP4", variable=file_organizer_ui.checkbox_value_mp4, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=1, column=0)
+Checkbutton(frame_extensions, text="PDF", variable=file_organizer_ui.checkbox_value_pdf, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=2, column=0)
+Checkbutton(frame_extensions, text="EXE", variable=file_organizer_ui.checkbox_value_exe, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=3, column=0)
+Checkbutton(frame_extensions, text="JPG", variable=file_organizer_ui.checkbox_value_jpg, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=4, column=0)
+
+Checkbutton(frame_extensions, text="JPEG", variable=file_organizer_ui.checkbox_value_jpeg, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=0, column=1)
+Checkbutton(frame_extensions, text="PNG", variable=file_organizer_ui.checkbox_value_png, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=1, column=1)
+Checkbutton(frame_extensions, text="TXT", variable=file_organizer_ui.checkbox_value_txt, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=2, column=1)
+Checkbutton(frame_extensions, text="JSON", variable=file_organizer_ui.checkbox_value_json, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=3, column=1)
+Checkbutton(frame_extensions, text="MP3", variable=file_organizer_ui.checkbox_value_mp3, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=4, column=1)
+
+Checkbutton(frame_extensions, text="M3U8", variable=file_organizer_ui.checkbox_value_m3u8, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=0, column=2)
+Checkbutton(frame_extensions, text="ZIP", variable=file_organizer_ui.checkbox_value_zip, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=1, column=2)
+Checkbutton(frame_extensions, text="GIF", variable=file_organizer_ui.checkbox_value_gif, command=lambda:file_organizer_ui.set_all_to_false(), width="5", anchor="w").grid(padx=1, pady=5, row=2, column=2)
+
+frame_filters = LabelFrame(root, text="Select filters",padx=20, pady=20)
+frame_filters.grid(row=2, column=0, pady=(10,0), padx=(50,0))
+
+Checkbutton(frame_filters, text="Filter by", variable=file_organizer_ui.checkbox_value_filters, command=lambda:file_organizer_ui.enable_filters(), width="18", anchor="w").grid(padx=0, pady=5, row=0, column=0)
+Label(frame_filters, fg="#000", font=("Arial Bold", 10), text="Max size in MB: ", width="15", anchor="w").grid(padx=0, pady=0, row=1, column=0)
+file_organizer_ui.entry_file_size = Entry(frame_filters, bg="#fff", font=("Arial Bold", 10), textvariable=file_organizer_ui.file_size, state=DISABLED, width="5")
+file_organizer_ui.entry_file_size.grid(padx=0, pady=0, row=1, column=1)
+
 root.mainloop()
 
