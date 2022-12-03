@@ -1,11 +1,11 @@
 from tkinter import *
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from file_organizer import *
 
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.1.4")
+        master.title("File Organizer V0.1.5")
         master.geometry("400x600")
         master.config(bg="#F3F3F3")
         master.resizable(False, False)

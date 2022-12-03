@@ -1,3 +1,4 @@
+from tkinter import messagebox
 from os import listdir, mkdir, stat
 from os.path import join, isdir, isfile, exists
 from shutil import move, rmtree
@@ -119,6 +120,7 @@ class FileOrganizer():
                 move(last_path, new_path)
 
                 print(f"{file} moved to {new_path}")
+            messagebox.showinfo(message="Successfully organized", title="File Organizer")
             return
 
         print(f"There are no files to move in this path")
@@ -142,7 +144,7 @@ class FileOrganizer():
                             print(f"{file} moved to {new_path}")
 
                     rmtree(directory)
-            
+                messagebox.showinfo(message="Successfully reverted", title="File Organizer")
             self.initial_state_reset()
         except:
             print("An error occurred while trying to revert ORGANIZER.")
