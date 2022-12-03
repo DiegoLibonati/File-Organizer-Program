@@ -5,13 +5,14 @@ from file_organizer import *
 class FileOrganizerUI(FileOrganizer):
     def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.1.3")
+        master.title("File Organizer V0.1.4")
         master.geometry("400x600")
         master.config(bg="#F3F3F3")
         master.resizable(False, False)
 
         self.pathname = StringVar(None, value="Wait for directory...")
-        self.file_size = IntVar(None, value=1)
+        self.min_file_size = IntVar(None, value=1)
+        self.max_file_size = IntVar(None, value=10)
 
         self.checkbox_value_all = BooleanVar(value=True)
         self.checkbox_value_mp4 = BooleanVar(value=True)
@@ -50,7 +51,8 @@ class FileOrganizerUI(FileOrganizer):
         if self.checkbox_value_all.get():
             if self.checkbox_value_filters.get():
                 self.filters = {
-                    "max_size": self.file_size.get() 
+                    "min_size": self.min_file_size.get(),
+                    "max_size": self.max_file_size.get() 
                 }
 
             self.get_all_files_from_path()
@@ -61,7 +63,8 @@ class FileOrganizerUI(FileOrganizer):
         else:
             if self.checkbox_value_filters.get():
                 self.filters = {
-                    "max_size": self.file_size.get() 
+                    "min_size": self.min_file_size.get(),
+                    "max_size": self.max_file_size.get() 
                 }
 
             self.extensions_allowed = [extension for extension, value in self.options.items() if value.get()]
@@ -91,12 +94,18 @@ class FileOrganizerUI(FileOrganizer):
         self.pathname.set("Wait for directory...")
         self.initial_state_reset()
 
-    def enable_filters(self):
-        if self.entry_file_size["state"] == DISABLED:
-            self.entry_file_size.config(state=NORMAL)
-            return
-        self.entry_file_size.config(state=DISABLED)
-        return
+    def enable_filters(self, filters):
+
+        for filter in filters:
+            if filter["state"] == DISABLED:
+                filter.config(state=NORMAL)
+                continue
+            
+            filter.config(state=DISABLED)
+            
+            if self.filters:
+                self.filters = {}
+            continue
 
 root = Tk()
 file_organizer_ui = FileOrganizerUI(master = root)
@@ -128,10 +137,16 @@ Checkbutton(frame_extensions, text="GIF", variable=file_organizer_ui.checkbox_va
 frame_filters = LabelFrame(root, text="Select filters",padx=20, pady=20)
 frame_filters.grid(row=2, column=0, pady=(10,0), padx=(50,0))
 
-Checkbutton(frame_filters, text="Filter by", variable=file_organizer_ui.checkbox_value_filters, command=lambda:file_organizer_ui.enable_filters(), width="18", anchor="w").grid(padx=0, pady=5, row=0, column=0)
-Label(frame_filters, fg="#000", font=("Arial Bold", 10), text="Max size in MB: ", width="15", anchor="w").grid(padx=0, pady=0, row=1, column=0)
-file_organizer_ui.entry_file_size = Entry(frame_filters, bg="#fff", font=("Arial Bold", 10), textvariable=file_organizer_ui.file_size, state=DISABLED, width="5")
-file_organizer_ui.entry_file_size.grid(padx=0, pady=0, row=1, column=1)
+Checkbutton(frame_filters, text="Filter by", variable=file_organizer_ui.checkbox_value_filters, command=lambda:file_organizer_ui.enable_filters(filters), width="18", anchor="w").grid(padx=0, pady=5, row=0, column=0)
 
+Label(frame_filters, fg="#000", font=("Arial Bold", 10), text="Min size in MB: ", width="15", anchor="w").grid(padx=0, pady=0, row=1, column=0)
+file_organizer_ui.entry_min_file_size = Entry(frame_filters, bg="#fff", font=("Arial Bold", 10), textvariable=file_organizer_ui.min_file_size, state=DISABLED, width="5")
+file_organizer_ui.entry_min_file_size.grid(padx=0, pady=0, row=1, column=1)
+
+Label(frame_filters, fg="#000", font=("Arial Bold", 10), text="Max size in MB: ", width="15", anchor="w").grid(padx=0, pady=0, row=2, column=0)
+file_organizer_ui.entry_max_file_size = Entry(frame_filters, bg="#fff", font=("Arial Bold", 10), textvariable=file_organizer_ui.max_file_size, state=DISABLED, width="5")
+file_organizer_ui.entry_max_file_size.grid(padx=0, pady=0, row=2, column=1)
+
+filters = [file_organizer_ui.entry_min_file_size, file_organizer_ui.entry_max_file_size]
 root.mainloop()
 
