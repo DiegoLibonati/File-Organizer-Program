@@ -149,22 +149,3 @@ class FileOrganizer():
         except:
             print("An error occurred while trying to revert ORGANIZER.")
             return False
-
-                
-
-
-# test = FileOrganizer()
-
-# test.print_path()
-
-# test.get_path()
-
-# test.get_all_files_from_path()
-
-# test.get_all_extensions_from_path()
-
-# test.create_extension_folders()
-
-# test.move_files_to_their_directory()
-
-#test.go_back()
