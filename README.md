@@ -38,4 +38,6 @@ I made a program that allows to sort the files in a specific path. It will get a
 
 ## Video
 
+https://user-images.githubusercontent.com/99032604/205468137-440a09af-4de6-4179-9cf7-5462b2ae414c.mp4
+
 ## Documentation
