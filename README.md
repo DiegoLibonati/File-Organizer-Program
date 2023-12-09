@@ -20,21 +20,9 @@ I made a program that allows to sort the files in a specific path. It will get a
 2. os
 3. shutil
 
-## Galery
-
-![fileorganize](https://raw.githubusercontent.com/DiegoLibonati/DiegoLibonatiWeb/main/data/projects/Python/Imagenes/fileorganize-0.jpg)
-
-![fileorganize](https://raw.githubusercontent.com/DiegoLibonati/DiegoLibonatiWeb/main/data/projects/Python/Imagenes/fileorganize-1.jpg)
-
-![fileorganize](https://raw.githubusercontent.com/DiegoLibonati/DiegoLibonatiWeb/main/data/projects/Python/Imagenes/fileorganize-2.jpg)
-
-![fileorganize](https://raw.githubusercontent.com/DiegoLibonati/DiegoLibonatiWeb/main/data/projects/Python/Imagenes/fileorganize-3.jpg)
-
-![fileorganize](https://raw.githubusercontent.com/DiegoLibonati/DiegoLibonatiWeb/main/data/projects/Python/Imagenes/fileorganize-0.jpg)
-
 ## Portfolio Link
 
-`https://diegolibonati.github.io/DiegoLibonatiWeb/#/projects?q=File%20Organizer%20Program`
+[`https://www.diegolibonati.com.ar/#/project/13`](https://www.diegolibonati.com.ar/#/project/13)
 
 ## Video
 
