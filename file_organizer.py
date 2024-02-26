@@ -3,38 +3,48 @@ from os import listdir, mkdir, stat
 from os.path import join, isdir, isfile, exists
 from shutil import move, rmtree
 
-class FileOrganizer():
-
-    def __init__(self, path: str = "", files: list = [], extensions: list = [], extensions_allowed: list = [], filters: dict = {}):
+class FileOrganizer:
+    def __init__(
+        self, path: str = "", files: list = [], 
+        extensions: list = [], extensions_allowed: list = [], filters: dict = {}
+    ):
         self.path = path
         self.files = files
         self.extensions = extensions
         self.extensions_allowed = extensions_allowed
         self.filters = filters
 
-    def print_path(self):
-        
+
+    def print_path(
+        self
+    ) -> None:
         try:
             print(f"The chosen path is: {self.path}")
         except:
             print("No path entered")
-            return False
     
-    def get_path(self):
 
+    def get_path(
+        self
+    ) -> None:
         try:
             self.path = input("Ingrese un path a ordenar: ")
         except:
             print("An error occurred when entering a path")
-            return False
     
-    def initial_state_reset(self):
-            self.path = ""
-            self.files = []
-            self.extensions = []
-            self.extensions_allowed = []
 
-    def get_all_files_from_path(self):
+    def initial_state_reset(
+        self
+    ) -> None:
+        self.path = ""
+        self.files = []
+        self.extensions = []
+        self.extensions_allowed = []
+
+
+    def get_all_files_from_path(
+        self
+    ) -> None:
         try:
             files_in_path = listdir(self.path)
 
@@ -55,9 +65,11 @@ class FileOrganizer():
             return
         except:
             print(f"Path not found: {self.path}")
-            return False
 
-    def get_specific_files_from_path(self):
+
+    def get_specific_files_from_path(
+        self
+    ) -> None:
         try:
             files_in_path = listdir(self.path)
             
@@ -79,9 +91,12 @@ class FileOrganizer():
             return
         except:
             print(f"Path not found: {self.path}")
-            return False
+            return
         
-    def get_all_extensions_from_path(self):
+
+    def get_all_extensions_from_path(
+        self
+    ) -> None:
 
         if self.files:
             for file in self.files:
@@ -92,9 +107,12 @@ class FileOrganizer():
             return
         
         print(f"There are no files to move in {self.path}")
-        return False    
+        return    
 
-    def create_extension_folders(self):
+
+    def create_extension_folders(
+        self
+    ) -> None:
         if self.extensions and self.path:
             for extension in self.extensions:
                 folder_name = f"{extension.upper()}_ORGANIZER"
@@ -108,9 +126,12 @@ class FileOrganizer():
             return
         
         print("No extensions or correct path found")
-        return False
+        return
 
-    def move_files_to_their_directory(self):
+
+    def move_files_to_their_directory(
+        self
+    ) -> None:
         if self.files:
             for file in self.files:
                 extension = file.rsplit(".", 1).pop().upper()
@@ -124,9 +145,12 @@ class FileOrganizer():
             return
 
         print(f"There are no files to move in this path")
-        return False 
+        return 
 
-    def revert_organizer(self):
+
+    def revert_organizer(
+        self
+    ) -> None:
         try:
             folder_names = [name for name in listdir(self.path) if isdir(f"{self.path}/{name}") and "_ORGANIZER" in name]
             if folder_names:
@@ -148,4 +172,4 @@ class FileOrganizer():
             self.initial_state_reset()
         except:
             print("An error occurred while trying to revert ORGANIZER.")
-            return False
+            return

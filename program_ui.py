@@ -1,11 +1,14 @@
 from tkinter import *
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
 from file_organizer import *
 
 class FileOrganizerUI(FileOrganizer):
-    def __init__(self, path: str = "", files: list = [] ,extensions: list = [], master: Tk = None):
+    def __init__(
+        self, path: str = "", files: list = [],
+        extensions: list = [], master: Tk = None
+    ):
         super().__init__(path, files, extensions)
-        master.title("File Organizer V0.1.5")
+        master.title("File Organizer V0.1.6")
         master.geometry("400x600")
         master.config(bg="#F3F3F3")
         master.resizable(False, False)
@@ -29,25 +32,32 @@ class FileOrganizerUI(FileOrganizer):
         self.checkbox_value_gif = BooleanVar(value=True)
         self.checkbox_value_filters = BooleanVar(value=False)
 
-        self.options = {"mp4":self.checkbox_value_mp4, 
-                        "pdf":self.checkbox_value_pdf, 
-                        "exe":self.checkbox_value_exe,
-                        "png":self.checkbox_value_png, 
-                        "jpg":self.checkbox_value_jpg, 
-                        "jpeg":self.checkbox_value_jpeg,
-                        "txt": self.checkbox_value_txt,
-                        "json": self.checkbox_value_json,
-                        "mp3": self.checkbox_value_mp3,
-                        "m3u8": self.checkbox_value_m3u8,
-                        "zip": self.checkbox_value_zip,
-                        "gif": self.checkbox_value_gif}
+        self.options = {
+            "mp4":self.checkbox_value_mp4, 
+            "pdf":self.checkbox_value_pdf, 
+            "exe":self.checkbox_value_exe,
+            "png":self.checkbox_value_png, 
+            "jpg":self.checkbox_value_jpg, 
+            "jpeg":self.checkbox_value_jpeg,
+            "txt": self.checkbox_value_txt,
+            "json": self.checkbox_value_json,
+            "mp3": self.checkbox_value_mp3,
+            "m3u8": self.checkbox_value_m3u8,
+            "zip": self.checkbox_value_zip,
+            "gif": self.checkbox_value_gif
+        }
 
-    def set_path(self):
+
+    def set_path(
+        self
+    ) -> None:
         self.path = filedialog.askdirectory(title="Choose a directory")
         self.pathname.set(self.path)
 
-    def organize(self):
-        
+
+    def organize(
+        self
+    ) -> None:
         if self.checkbox_value_all.get():
             if self.checkbox_value_filters.get():
                 self.filters = {
@@ -77,7 +87,10 @@ class FileOrganizerUI(FileOrganizer):
         self.pathname.set("Wait for directory...")
         self.initial_state_reset()
 
-    def set_all_values_to_true(self):
+
+    def set_all_values_to_true(
+        self
+    ) -> None:
         if self.checkbox_value_all.get():
             for option in self.options.values():
                 option.set(True)
@@ -85,16 +98,25 @@ class FileOrganizerUI(FileOrganizer):
             for option in self.options.values():
                 option.set(False)
 
-    def set_all_to_false(self):
+
+    def set_all_to_false(
+        self
+    ) -> None:
         self.checkbox_value_all.set(False)
 
-    def reverse_organize(self):
+
+    def reverse_organize(
+        self
+    ) -> None:
         self.revert_organizer()
 
         self.pathname.set("Wait for directory...")
         self.initial_state_reset()
 
-    def enable_filters(self, filters):
+
+    def enable_filters(
+        self, filters: dict
+    ) -> None:
 
         for filter in filters:
             if filter["state"] == DISABLED:
