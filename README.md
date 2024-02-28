@@ -4,7 +4,7 @@
 
 1. Clone the repository
 2. Join to the correct path of the clone
-3. Use `python program_ui.py` to execute script
+3. Use `python ./src/app.py` to execute script
 
 ## Description
 

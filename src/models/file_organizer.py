@@ -1,6 +1,6 @@
+import os 
+
 from tkinter import messagebox
-from os import listdir, mkdir, stat
-from os.path import join, isdir, isfile, exists
 from shutil import move, rmtree
 
 class FileOrganizer:
@@ -46,7 +46,7 @@ class FileOrganizer:
         self
     ) -> None:
         try:
-            files_in_path = listdir(self.path)
+            files_in_path = os.listdir(self.path)
 
             if self.filters:
                 byte = 1024 * 1024
@@ -54,14 +54,14 @@ class FileOrganizer:
                 filter_max_size = self.filters["max_size"] * byte
 
                 for file in files_in_path:
-                    file_is_file = isfile(f"{self.path}/{file}")
-                    file_size = stat(f'{self.path}/{file}').st_size
+                    file_is_file = os.path.isfile(f"{self.path}/{file}")
+                    file_size = os.stat(f'{self.path}/{file}').st_size
 
                     if file_is_file and file_size >= filter_min_size and file_size <= filter_max_size:
                         self.files.append(file)
                 return
 
-            self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}")]
+            self.files = [file for file in files_in_path if os.path.isfile(f"{self.path}/{file}")]
             return
         except:
             print(f"Path not found: {self.path}")
@@ -71,7 +71,7 @@ class FileOrganizer:
         self
     ) -> None:
         try:
-            files_in_path = listdir(self.path)
+            files_in_path = os.listdir(self.path)
             
             if self.filters:
                 byte = 1024 * 1024
@@ -79,15 +79,15 @@ class FileOrganizer:
                 filter_max_size = self.filters["max_size"] * byte
                 
                 for file in files_in_path:
-                    file_is_file = isfile(f"{self.path}/{file}")
+                    file_is_file = os.path.isfile(f"{self.path}/{file}")
                     file_extension = file.rsplit(".", 1).pop()
-                    file_size = stat(f'{self.path}/{file}').st_size
+                    file_size = os.stat(f'{self.path}/{file}').st_size
 
                     if file_is_file and file_extension in self.extensions_allowed and file_size >= filter_min_size and file_size <= filter_max_size:
                         self.files.append(file)
                 return
 
-            self.files = [file for file in files_in_path if isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
+            self.files = [file for file in files_in_path if os.path.isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
             return
         except:
             print(f"Path not found: {self.path}")
@@ -117,9 +117,9 @@ class FileOrganizer:
             for extension in self.extensions:
                 folder_name = f"{extension.upper()}_ORGANIZER"
 
-                if not exists(f"{self.path}/{folder_name}"):
-                    directory = join(self.path, folder_name)
-                    mkdir(directory)
+                if not os.path.exists(f"{self.path}/{folder_name}"):
+                    directory = os.path.join(self.path, folder_name)
+                    os.mkdir(directory)
                     print(f"Directory {folder_name} created")
                 else:
                     print(f"The directory: {folder_name} was not created because it already exists.")
@@ -152,11 +152,11 @@ class FileOrganizer:
         self
     ) -> None:
         try:
-            folder_names = [name for name in listdir(self.path) if isdir(f"{self.path}/{name}") and "_ORGANIZER" in name]
+            folder_names = [name for name in os.listdir(self.path) if os.path.isdir(f"{self.path}/{name}") and "_ORGANIZER" in name]
             if folder_names:
                 for extension in folder_names:
                     directory = f"{self.path}/{extension}"
-                    directory_files = listdir(directory)
+                    directory_files = os.listdir(directory)
                     
                     if directory_files:
                         for file in directory_files:

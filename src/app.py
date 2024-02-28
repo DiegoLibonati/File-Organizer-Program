@@ -1,6 +1,7 @@
 from tkinter import *
+from models.file_organizer import *
+
 from tkinter import filedialog
-from file_organizer import *
 
 class FileOrganizerUI(FileOrganizer):
     def __init__(
