@@ -1,4 +1,4 @@
-# File-Organizer-Program
+# File Organizer Program
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ I made a program that allows to sort the files in a specific path. It will get a
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/13`](https://www.diegolibonati.com.ar/#/project/13)
+[`https://www.diegolibonati.com.ar/#/project/File-Organizer-Program`](https://www.diegolibonati.com.ar/#/project/File-Organizer-Program)
 
 ## Video
 
