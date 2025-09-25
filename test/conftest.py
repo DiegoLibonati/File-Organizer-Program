@@ -1,13 +1,12 @@
 import os
 import shutil
+from test.constants import FOLDER_TEST_PATH
 from tkinter import Tk
 
 from pytest import fixture
 
-from src.models.InterfaceApp import InterfaceApp
-from src.models.FileOrganizer import FileOrganizer
-
-from test.constants import FOLDER_TEST_PATH
+from src.models.file_organizer import FileOrganizer
+from src.ui.interface_app import InterfaceApp
 
 
 @fixture(scope="session")
@@ -43,7 +42,6 @@ def pytest_sessionstart():
 
 
 def pytest_sessionfinish():
-    """Se ejecuta después de que todos los tests hayan terminado."""    
-    
+    """Se ejecuta después de que todos los tests hayan terminado."""
 
     shutil.rmtree(path=FOLDER_TEST_PATH)

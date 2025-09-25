@@ -1,36 +1,53 @@
-import os 
+import os
 import time
-from typing import Any
 from shutil import move, rmtree
+from typing import Any
 
 
 class FileOrganizer:
-    def __init__(self, path: str, extensions_allowed: list[str] = [], folder_name: str = "ORGANIZER") -> None:
+    def __init__(
+        self,
+        path: str,
+        extensions_allowed: list[str] = [],
+        folder_name: str = "ORGANIZER",
+    ) -> None:
         self.path: str = path
         self.folder_name = folder_name
         self.extensions_allowed: list[str] = extensions_allowed
 
         self.filters: dict[str, Any] = {}
-        self.all_path_extensions: list[str] = self._get_extensions(files=self._get_files())
+        self.all_path_extensions: list[str] = self._get_extensions(
+            files=self._get_files()
+        )
 
     def organizer(self) -> tuple[str, bool]:
         if not self.all_path_extensions or not self.path:
-            return "It could not be organized because there is no path or there are no extensions.", False
-        
+            return (
+                "It could not be organized because there is no path or there are no extensions.",
+                False,
+            )
+
         files = self._get_files()
 
         if not files:
-            return "There are no files to organize. Adjust filters or change path.", False
+            return (
+                "There are no files to organize. Adjust filters or change path.",
+                False,
+            )
 
         files_extensions = self._get_extensions(files=self._get_files())
 
-        extensions = self.extensions_allowed if self.extensions_allowed else self.all_path_extensions
+        extensions = (
+            self.extensions_allowed
+            if self.extensions_allowed
+            else self.all_path_extensions
+        )
 
         for extension in extensions:
             folder_name = f"{extension.upper()}_{self.folder_name}"
             dir_path = os.path.join(self.path, folder_name)
 
-            if os.path.exists(dir_path) or not extension in files_extensions:
+            if os.path.exists(dir_path) or extension not in files_extensions:
                 continue
 
             os.mkdir(dir_path)
@@ -47,7 +64,11 @@ class FileOrganizer:
         return "Successfully organized.", True
 
     def revert_organizer(self) -> tuple[str, bool]:
-        folder_names = [name for name in os.listdir(self.path) if os.path.isdir(f"{self.path}/{name}") and self.folder_name in name]
+        folder_names = [
+            name
+            for name in os.listdir(self.path)
+            if os.path.isdir(f"{self.path}/{name}") and self.folder_name in name
+        ]
 
         if not folder_names:
             return "There are no folders to revert.", False
@@ -59,7 +80,7 @@ class FileOrganizer:
             if not dir_files:
                 rmtree(dir_path)
                 continue
-            
+
             for file in dir_files:
                 last_path = f"{dir_path}/{file}"
                 new_path = f"{self.path}/{file}"
@@ -78,10 +99,19 @@ class FileOrganizer:
             files_in_path = os.listdir(self.path)
 
             if not self.filters and not self.extensions_allowed:
-                return [file for file in files_in_path if os.path.isfile(f"{self.path}/{file}")]
-            
+                return [
+                    file
+                    for file in files_in_path
+                    if os.path.isfile(f"{self.path}/{file}")
+                ]
+
             if not self.filters and self.extensions_allowed:
-                return [file for file in files_in_path if os.path.isfile(f"{self.path}/{file}") and file.rsplit(".", 1).pop() in self.extensions_allowed]
+                return [
+                    file
+                    for file in files_in_path
+                    if os.path.isfile(f"{self.path}/{file}")
+                    and file.rsplit(".", 1).pop() in self.extensions_allowed
+                ]
 
             files = []
             byte = 1024 * 1024
@@ -91,32 +121,41 @@ class FileOrganizer:
 
             for file in files_in_path:
                 is_file = os.path.isfile(f"{self.path}/{file}")
-                
+
                 if not is_file:
                     continue
 
-                file_size = os.stat(f'{self.path}/{file}').st_size
+                file_size = os.stat(f"{self.path}/{file}").st_size
                 file_extension = file.rsplit(".", 1).pop()
 
-                print(f"File size: {file_size} - min size: {filter_min_size} - max size: {filter_max_size}")
+                print(
+                    f"File size: {file_size} - min size: {filter_min_size} - max size: {filter_max_size}"
+                )
 
-                if (not self.extensions_allowed or file_extension in self.extensions_allowed) and file_size >= filter_min_size and file_size <= filter_max_size:
+                if (
+                    (
+                        not self.extensions_allowed
+                        or file_extension in self.extensions_allowed
+                    )
+                    and file_size >= filter_min_size
+                    and file_size <= filter_max_size
+                ):
                     files.append(file)
 
             return files
         except Exception as ex:
             raise ValueError(str(ex))
-        
+
     def _get_extensions(self, files: list[str]) -> list[str]:
         if not files:
             return []
-        
+
         extensions: list[str] = []
 
         for file in files:
             extension = file.rsplit(".", 1).pop()
 
-            if not extension in extensions:
+            if extension not in extensions:
                 extensions.append(extension)
 
         return extensions
@@ -154,4 +193,3 @@ if __name__ == "__main__":
     time.sleep(5)
 
     file_organizer.revert_organizer()
-    
