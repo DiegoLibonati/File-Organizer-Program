@@ -27,7 +27,7 @@ I made a program that allows to sort the files in a specific path. It will get a
 
 ## Technologies used
 
-1. Python
+1. Python >= 3.11
 
 ## Libraries used
 
